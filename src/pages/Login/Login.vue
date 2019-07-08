@@ -12,8 +12,11 @@
         <form>
           <div :class="{on: loginType}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+              <button :disabled="!isRightPhone || computeTime>0" class="get_verification" 
+                :class="{right_phone_number: isRightPhone}" @click.prevent="sendCode">
+                {{computeTime>0 ? `已发送验证码(${computeTime}s)` : '获取验证码'}}
+              </button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -29,10 +32,10 @@
                 <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input :type="isShowPwd ? 'text' : 'password'" maxlength="8" placeholder="密码">
+                <div class="switch_button" :class="isShowPwd ? 'on' : 'off'" @click="isShowPwd = !isShowPwd">
+                  <div class="switch_circle" :class="{right: isShowPwd}"></div>
+                  <span class="switch_text">{{isShowPwd ? 'abc' : ''}}</span>
                 </div>
               </section>
               <section class="login_message">
@@ -53,10 +56,42 @@
 </template>
 
 <script type="text/ecmascript-6">
+  // import { clearInterval, setInterval } from 'timers';
   export default {
     data () {
       return {
-        loginType: true, // true: 短信登陆, false: 密码登陆
+        loginType: false, // true: 短信登陆, false: 密码登陆
+        phone: '', // 手机号
+        computeTime: 0, // 计时剩余的时间, 为0时没有计时了
+        isShowPwd: false, // 是否显示密码, 默认不显示
+      }
+    },
+
+    computed: {
+      /* 
+      是否是正确手机号
+      */
+      isRightPhone () {
+        return /^1\d{10}$/.test(this.phone)
+      }
+    },
+
+    methods: {
+      /* 
+      发送验证
+      */
+      sendCode () {
+        // alert('----')
+        // 设置最大时间
+        this.computeTime = 10
+        // 启动循环定时器进行计时
+        const intervalId = setInterval(() => {
+          this.computeTime--
+          // 一旦到了0, 清除定时器
+          if (this.computeTime===0) {
+            clearInterval(intervalId)
+          }
+        }, 1000)
       }
     }
   }
@@ -124,6 +159,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone_number
+                  color black
             .login_verification
               position relative
               margin-top 16px
@@ -163,6 +200,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(27px)
             .login_hint
               margin-top 12px
               color #999
