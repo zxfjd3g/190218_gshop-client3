@@ -6,7 +6,8 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
   RECEIVE_USER,
-  RESET_USER
+  RESET_USER,
+  RECEIVE_TOKEN
 } from "./mutation-types"
 
 export default {
@@ -24,6 +25,10 @@ export default {
   
   [RECEIVE_USER](state, {user}) {
     state.user = user
+  },
+
+  [RECEIVE_TOKEN](state, {token}) {
+    state.token = token
   },
 
   [RESET_USER](state) {

@@ -7,7 +7,6 @@
 */
 
 import axios from 'axios'
-// const qs = require('qs')
 import qs from 'qs'
 
 import store from '../vuex/store'
@@ -18,19 +17,26 @@ axios.defaults.timeout = 20000 // 20s
 
 // 添加请求拦截器
 axios.interceptors.request.use((config) => {
-
+  debugger
   const {method, data} = config  
   // 如果是携带数据的post请求, 进行处理
   if (method.toLowerCase()==='post' && data && typeof data==='object') {
     config.data = qs.stringify(data) // {name: 'tom', pwd: '123'} ==> name=tom&pwd=123
   }
 
-  // 如果浏览器有tokden, 就自动携带上token
-  const token = localStorage.getItem('token_key')
-  if (token) {
-    config.headers.Authorization = 'token ' + token
+  const { needAuth } = config.headers
+  if (needAuth) {
+    // 如果浏览器有token, 就自动携带上token
+    const token = store.state.token
+    if (token) {
+      config.headers.Authorization = token
+    } else {
+      const error = new Error('没有权限, 不能发请求')
+      error.status = 401
+      throw error
+    }
   }
-
+  
   return config;
 });
 
@@ -41,17 +47,38 @@ axios.interceptors.response.use(response => {
   return response.data
 }, error => {// 请求异常
 
-  const status = error.response.status
-  const msg = error.message
-  if (status === 401) { // 未授权
-    // 退出登陆
-    store.dispatch('logout')
-    router.replace('/login')
-    alert(error.response.data.message)
-  } else if (status === 404) {
-    alert('请求的资源不存在')
+  if (!error.response) {
+    if (error.status===401) {
+      if (router.currentRoute.path !== '/login') {
+        console.log('请求前未授权, 跳转到登陆')
+        // 退出登陆
+        router.replace('/login')
+        alert(error.message)
+      } else {
+        console.log('请求前未授权, 但已跳转')
+      }
+    } else {
+      console.log('error', error)
+    }
+    
   } else {
-    alert('请求异常: ' + msg)
+    const status = error.response.status
+    const msg = error.message
+    if (status === 401) { // 未授权
+      if (router.currentRoute.path !== '/login') {
+        console.log('请求后未授权, 跳转到登陆')
+        // 退出登陆
+        store.dispatch('logout')
+        router.replace('/login')
+        alert(error.response.data.message)
+      } else {
+        console.log('请求后未授权, 但已跳转')
+      }
+    } else if (status === 404) {
+      alert('请求的资源不存在')
+    } else {
+      alert('请求异常: ' + msg)
+    }
   }
 
   // return error

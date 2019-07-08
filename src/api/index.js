@@ -12,15 +12,21 @@ export const reqAddress = (longitude, latitude) => ajax.get(BASE + `/position/${
 // 获取食品分类列表
 export const reqCategorys = () => ajax({
   method: 'GET',
-  url: BASE + '/index_category'
+  url: BASE + '/index_category',
+  headers: {needAuth: true}, // 需要进行权限验证
 })
 
 // 根据经纬度获取商铺列表
-export const reqShops = ({latitude, longitude}) => ajax({
-  method: 'GET',
-  url: BASE + '/shops',
-  params: { latitude, longitude }
-})
+export const reqShops = ({latitude, longitude}) => {
+  debugger
+  return ajax({
+    method: 'GET',
+    url: BASE + '/shops',
+    params: { latitude, longitude },
+    headers: {needAuth: true}, // 需要进行权限验证
+  })
+}
+
 
 // 发送短信验证码
 export const reqSendCode = (phone) => ajax({
