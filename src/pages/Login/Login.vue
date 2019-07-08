@@ -139,11 +139,10 @@
           const user = result.data
           this.$store.dispatch('recordUser', user)
           // 跳转到个人中心
-          this.$router.repalce('/profile')
+          this.$router.replace('/profile')
         } else { // 登陆失败
           alert(result.msg)
         }
-        
       }
     }
   }
