@@ -12,14 +12,18 @@
         <form>
           <div :class="{on: loginType}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone"
+                name="phone" v-validate="'required|mobile'">
               <button :disabled="!isRightPhone || computeTime>0" class="get_verification" 
                 :class="{right_phone_number: isRightPhone}" @click.prevent="sendCode">
                 {{computeTime>0 ? `已发送验证码(${computeTime}s)` : '获取验证码'}}
               </button>
+              <span style="color: red;" v-show="errors.has('phone')">{{ errors.first('phone') }}</span>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="text" placeholder="验证码" v-model="code"
+                name="code" v-validate="{required: true, regex: /^\d{6}$/}">
+              <span style="color: red;" v-show="errors.has('code')">{{ errors.first('code') }}</span>
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -29,18 +33,26 @@
           <div :class="{on: !loginType}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="text" placeholder="用户名" v-model="name" 
+                  name="name" v-validate="'required'">
+                <span v-show="errors.has('name')" style="color: red">{{ errors.first('name') }}</span>
               </section>
+
               <section class="login_verification">
-                <input :type="isShowPwd ? 'text' : 'password'" maxlength="8" placeholder="密码">
+                <input :type="isShowPwd ? 'text' : 'password'" maxlength="8" placeholder="密码" 
+                  v-model="pwd" name="pwd" v-validate="'required'">
                 <div class="switch_button" :class="isShowPwd ? 'on' : 'off'" @click="isShowPwd = !isShowPwd">
                   <div class="switch_circle" :class="{right: isShowPwd}"></div>
                   <span class="switch_text">{{isShowPwd ? 'abc' : ''}}</span>
                 </div>
+                <span v-show="errors.has('pwd')" style="color: red">{{ errors.first('pwd') }}</span>
               </section>
+
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
+                <input type="text" maxlength="11" placeholder="验证码"
+                  v-model="captcha" name="captcha" v-validate="{required: true, regex: /^[0-9a-zA-Z]{4}$/}">
                 <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <span v-show="errors.has('captcha')" style="color: red">{{ errors.first('captcha') }}</span>
               </section>
             </section>
           </div>
