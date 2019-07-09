@@ -28,7 +28,8 @@
       messages: zh_CN.messages,
       attributes: {
         phone: '手机号',
-        code: '验证码'
+        code: '验证码',
+        pwd: '密码'
       }
     })
 
