@@ -7,7 +7,8 @@ import {
   RECEIVE_SHOPS,
   RECEIVE_USER,
   RESET_USER,
-  RECEIVE_TOKEN
+  RECEIVE_TOKEN,
+  RESET_TOKEN
 } from "./mutation-types"
 
 export default {
@@ -33,5 +34,9 @@ export default {
 
   [RESET_USER](state) {
     state.user = {}
+  },
+
+  [RESET_TOKEN](state) {
+    state.token = ''
   },
 }

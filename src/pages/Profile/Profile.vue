@@ -89,11 +89,26 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px">
+      <mt-button type="danger" style="width: 100%" @click="logout">退出登陆</mt-button>
+    </section>
   </section>
 </template>
 
 <script type="text/ecmascript-6">
+  import { Toast, MessageBox } from 'mint-ui'
   export default {
+    methods: {
+      logout () {
+        // Toast('提示信息');
+        // MessageBox.alert('你好', '提示');
+        MessageBox.confirm('确定执行此操作?').then(action => {
+          alert('点击确定')
+        }, action => {
+          alert('点击了取消')
+        });
+      }
+    }
   }
 </script>
 

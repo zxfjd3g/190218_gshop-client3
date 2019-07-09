@@ -1,7 +1,7 @@
 /* 
 包含n个用于间接修改状态数据的方法的对象
 */
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import {
   reqAddress,
   reqCategorys,
@@ -14,7 +14,8 @@ import {
   RECEIVE_SHOPS,
   RECEIVE_USER,
   RESET_USER,
-  RECEIVE_TOKEN
+  RECEIVE_TOKEN,
+  RESET_TOKEN
 } from "./mutation-types"
 
 export default {
@@ -83,9 +84,9 @@ export default {
   logout ({commit}) {
     // 重置状态中的user
     commit(RESET_USER)
+    // 重置状态中的token
+    commit(RESET_TOKEN)
     // 清除local中保存的token
     localStorage.removeItem('token_key')
-    // 清除cookie中的user_id
-    Cookies.remove('user_id')
   }
 }

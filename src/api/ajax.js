@@ -67,7 +67,7 @@ axios.interceptors.response.use(response => {
   } else {
     const status = error.response.status
     const msg = error.message
-    if (status === 401) { // 未授权
+    if (status === 401) { // 授权过期
       if (router.currentRoute.path !== '/login') {
         // 退出登陆
         store.dispatch('logout')
