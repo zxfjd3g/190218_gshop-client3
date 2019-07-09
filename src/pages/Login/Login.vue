@@ -56,7 +56,7 @@
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -74,6 +74,10 @@
       return {
         loginType: false, // true: 短信登陆, false: 密码登陆
         phone: '', // 手机号
+        code: '', 
+        name: '',
+        pwd: '',
+        captcha: '',
         computeTime: 0, // 计时剩余的时间, 为0时没有计时了
         isShowPwd: false, // 是否显示密码, 默认不显示
       }
@@ -104,8 +108,26 @@
             clearInterval(intervalId)
           }
         }, 1000)
+      },
+
+      async login () {
+
+        const {loginType, phone, code, name, pwd, captcha} = this
+          let names
+          if (loginType) { 
+            names = ['phone', 'code']
+          } else {
+            names = ['name', 'pwd', 'captcha']
+          }
+          
+          // 进行统一的前台表单验证
+          const success = await this.$validator.validateAll(names)
+          // 验证通过后发ajax请求
+          if (success) {
+            alert('发送登陆的请求')
+          }
       }
-    }
+    },
   }
 </script>
 
