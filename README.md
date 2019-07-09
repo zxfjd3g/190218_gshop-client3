@@ -184,7 +184,7 @@
 
 ## day04
 
-## token的理解和使用
+## 1. token的理解和使用
     1). 作用
         a. 对请求进行一定的检查限制, 防止恶意请求
         b. 后台部分接口需要进行token验证  ==> 只有请求这些接口时才携带token
@@ -202,5 +202,28 @@
                 status为: 401: token过期了, 退出登陆(清除local中的token和state中user与token), 并跳转到登陆页面
                 status为: 404: 提示访问的资源不存在
 
+## 2. 使用vee-validate进行表单验证
 
+## 3. 使用mint-ui组件库
+    1). 按需引入打包
+    2). 使用button/Toast/MessageBox
 
+## 4. 搭建商家的整体界面
+
+## 5. json的理解和设计
+    0. json是什么?
+        具有特定结构的字符串
+    1. 整体结构
+        1). json对象: {key1: value1, key2: value2}
+        2). json数组: [value1, value2]
+    2. json的组成
+        1). 结构: 数据类型和标识名称  不显示到界面上
+        2). 数据值: 其它, 显示到界面
+    3. key是什么?  
+        字符串(必须用双向包起来)
+    4. value是什么?
+        string/number/boolean/{}/[]
+    5. 设计
+        {}与[]的选择
+    6. mock数据与真实数据
+        结构要一样, 值可以不一样
