@@ -6,7 +6,10 @@ import {
   reqAddress,
   reqCategorys,
   reqShops,
-  reqAutoLogin
+  reqAutoLogin,
+  reqInfo,
+  reqGoods,
+  reqRatings
 } from '../api'
 
 import { 
@@ -16,7 +19,10 @@ import {
   RECEIVE_USER,
   RESET_USER,
   RECEIVE_TOKEN,
-  RESET_TOKEN
+  RESET_TOKEN,
+  RECEIVE_GOODS,
+  RECEIVE_INFO,
+  RECEIVE_RATINGS
 } from "./mutation-types"
 
 export default {
@@ -104,5 +110,35 @@ export default {
         commit(RECEIVE_USER, { user })
       }
     }
-  }
+  },
+
+  // 异步获取商家信息
+  async getShopInfo({commit}, cb) {
+    const result = await reqInfo()
+    if(result.code===0) {
+      const info = result.data
+      commit(RECEIVE_INFO, {info})
+      cb && cb()
+    }
+  },
+
+  // 异步获取商家评价列表
+  async getShopRatings({commit}, cb) {
+    const result = await reqRatings()
+    if(result.code===0) {
+      const ratings = result.data
+      commit(RECEIVE_RATINGS, {ratings})
+      cb && cb()
+    }
+  },
+
+  // 异步获取商家商品列表
+  async getShopGoods({commit}, cb) {
+    const result = await reqGoods()
+    if(result.code===0) {
+      const goods = result.data
+      commit(RECEIVE_GOODS, {goods})
+      cb && cb()
+    }
+  },
 }

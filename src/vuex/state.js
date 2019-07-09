@@ -10,5 +10,9 @@ export default {
   shops: [], //商家数组
 
   user: {}, // 登陆用户信息对象
-  token: localStorage.getItem('token_key')
+  token: localStorage.getItem('token_key'),
+
+  goods: [], // 商品列表
+  ratings: [], // 商家评价列表
+  info: {}, // 商家信息
 }
