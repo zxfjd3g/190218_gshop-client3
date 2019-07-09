@@ -17,14 +17,15 @@ axios.defaults.timeout = 20000 // 20s
 
 // 添加请求拦截器
 axios.interceptors.request.use((config) => {
-  debugger
   const {method, data} = config  
   // 如果是携带数据的post请求, 进行处理
   if (method.toLowerCase()==='post' && data && typeof data==='object') {
     config.data = qs.stringify(data) // {name: 'tom', pwd: '123'} ==> name=tom&pwd=123
   }
 
+  debugger
   const { needAuth } = config.headers
+  
   if (needAuth) {
     // 如果浏览器有token, 就自动携带上token
     const token = store.state.token
@@ -46,7 +47,7 @@ axios.interceptors.response.use(response => {
   // 返回response中的data数据, 这样请求成功的数据就是data了
   return response.data
 }, error => {// 请求异常
-
+  debugger
   if (!error.response) {
     if (error.status===401) {
       if (router.currentRoute.path !== '/login') {

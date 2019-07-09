@@ -73,7 +73,7 @@ export default {
     // 将token保存到state中
     commit(RECEIVE_TOKEN, { token: user.token })
     // 将user保存到state中
-    delete user.token
+    delete user.token  // 删除对象中指定的属性
     commit(RECEIVE_USER, { user })
   },
 

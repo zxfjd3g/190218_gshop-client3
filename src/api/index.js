@@ -3,6 +3,7 @@
 每个函数返回的都是promise
 */
 import ajax from './ajax'
+import store from '../vuex/store';
 
 const BASE = '/api'
 
@@ -55,3 +56,11 @@ export const reqSmsLogin = (phone, code) => ajax({
     code
   }
 })
+
+// 请求自动登陆
+export const reqAutoLogin = () => ajax({
+  url: BASE + '/auto_login',
+  headers: {'authorization': store.state.token}
+})
+
+// reqAutoLogin()

@@ -160,7 +160,7 @@
                 }
 
 ### 1. Login组件的纯前台交互功能 
-    1). 切换2种登陆方式: loginWay
+    1). 切换2种登陆方式: loginType
     2). 手机号格式验证: isRightPhone计算属性
     3). 倒计时的效果: computeTime + setInterval()
     4). 切换密码的显示/隐藏: isShowPwd + transition
@@ -182,6 +182,24 @@
             0. 成功, 保存user到state, 保存token到storage, 返回到个人中心
 
 
+## token的理解和使用
+    1). 作用
+        a. 对请求进行一定的检查限制, 防止恶意请求
+        b. 后台部分接口需要进行token验证  ==> 只有请求这些接口时才携带token
+    2). 使用流程
+        a. 客户端发送登陆的请求, 服务器端进行用户名和密码查询, 
+            如果user存在, 根据user的id值生成token(指定了有效期), 将user和token返回给客户端
+        b. 客户端接收到登陆成功的响应后, 将token保存localStorage, 将user和token保存在vuex的state
+        c. 在请求需要授权检查的接口前(在请求拦截器做)
+            如果token不存在, 不发请求, 直接进行错误流程(响应拦截器的错误处理): throw error对象(status: 401)
+            如果token存在, 将token添加到请求头中: config.headers.Authorization = token
+        d. 在响应拦截器中处理错误
+            1). 如果error中没有response
+                判断error的status为401, 如果当前没有在登陆页面, 跳转到登陆页面
+            2). 如果error中有response, 取出response中的status
+                status为: 401: token过期了, 退出登陆(清除local中的token和state中user与token), 并跳转到登陆页面
+                status为: 404: 提示访问的资源不存在
+                
 
 
 
