@@ -9,6 +9,7 @@
 import axios from 'axios'
 // const qs = require('qs')
 import qs from 'qs'
+import { Toast } from 'mint-ui'
 
 import store from '../vuex/store'
 import router from '../router'
@@ -58,7 +59,7 @@ axios.interceptors.response.use(response => {
       // 如果当前没在登陆界面
       if (router.currentRoute.path!=='/login') {
         router.replace('/login')
-        alert(error.message)
+        Toast(error.message)
       } else {
         console.log('没有token, 请求前取消的请求, 已在login, 不需要跳转')
       }
@@ -72,15 +73,15 @@ axios.interceptors.response.use(response => {
         // 退出登陆
         store.dispatch('logout')
         router.replace('/login')
-        alert(error.response.data.message)
+        Toast(error.response.data.message)
       } else {
         console.log('token过期的请求, 已在login')
       }
       
     } else if (status === 404) {
-      alert('请求的资源不存在')
+      Toast('请求的资源不存在')
     } else {
-      alert('请求异常: ' + msg)
+      Toast('请求异常: ' + msg)
     }
   }
   

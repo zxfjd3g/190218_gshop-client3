@@ -5,7 +5,8 @@
 import {
   reqAddress,
   reqCategorys,
-  reqShops
+  reqShops,
+  reqAutoLogin
 } from '../api'
 
 import { 
@@ -88,5 +89,20 @@ export default {
     commit(RESET_TOKEN)
     // 清除local中保存的token
     localStorage.removeItem('token_key')
+  },
+
+  /* 
+  自动登陆的异步action
+  */
+  async autoLogin ({commit, state}) {
+    // 如果有token, 就发自动登陆的请求获取user
+    const token  = state.token
+    if (token) {
+      const result = await reqAutoLogin()
+      if (result.code===0) {
+        const user = result.data
+        commit(RECEIVE_USER, { user })
+      }
+    }
   }
 }

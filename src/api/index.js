@@ -55,3 +55,11 @@ export const reqSmsLogin = (phone, code) => ajax({
     code
   }
 })
+
+/* 
+自动登陆的请求
+*/
+export const reqAutoLogin = () => ajax({
+  url: BASE + '/auto_login',
+  headers: { needToken: true }
+})
