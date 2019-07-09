@@ -203,12 +203,15 @@
                 status为: 404: 提示访问的资源不存在
 
 ## 2. 使用vee-validate进行表单验证
+    参考: vee-validate使用.md
 
 ## 3. 使用mint-ui组件库
     1). 按需引入打包
     2). 使用button/Toast/MessageBox
 
 ## 4. 搭建商家的整体界面
+    1). 拆分界面路由: 嵌套(二级)路由
+    2). 路由的定义/配置|使用
 
 ## 5. json的理解和设计
     0. json是什么?
@@ -227,3 +230,8 @@
         {}与[]的选择
     6. mock数据与真实数据
         结构要一样, 值可以不一样
+
+## 6. mockjs的理解和使用
+    mockjs是什么: 用来提供mock数据接口的js库
+    mockjs作用: 拦截ajax请求, 返回根据指定结构生成的随机数据
+    mockjs使用: Mock.mock(url, template)
