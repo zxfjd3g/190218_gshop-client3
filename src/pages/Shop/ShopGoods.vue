@@ -2,10 +2,10 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper" ref="leftWrapper">
-        <ul>
+        <ul ref="leftUl">
           <!-- current  currentIndex=1-->
           <li class="menu-item" v-for="(good, index) in goods" :key="good.name" 
-            :class="{current: currentIndex===index}">
+            :class="{current: currentIndex===index}" @click="clickItem(index)">
             <span class="text bottom-border-1px">
               <img class="icon" v-if="good.icon" :src="good.icon">
               {{good.name}}
@@ -66,13 +66,24 @@
       // 当前分类的下标
       currentIndex () {
         const {scrollY, tops} = this
-        return tops.findIndex((top, index) => scrollY>=top && scrollY<tops[index+1])
+        // 计算出最新的下标
+        const index = tops.findIndex((top, index) => scrollY>=top && scrollY<tops[index+1])
+        // 如果index有变化
+        if (index!==this.index && this.leftScroll) {
+          // 保存index
+          this.index = index
+          // 在当前分类发生变化时, 让右侧列表滑动当前分类处
+          const li = this.$refs.leftUl.children[index]
+          this.leftScroll.scrollToElement(li, 300)
+        }
+
+        return index
       }
     },
 
     watch: {
       goods () {
-        this.$nextTick(() => {
+        this.$nextTick(() => {// 列表显示之后
           this.initScroll()
           this.initTops()
         })
@@ -82,22 +93,23 @@
     methods: {
       // 初始化滚动
       initScroll () {
-        const leftScroll = new BScroll(this.$refs.leftWrapper, {
-
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+          click: true, // 标识分发点击事件
         })
-        const rightScroll = new BScroll(this.$refs.rightWrapper, {
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           // probeType: 3, // 触摸/惯性/编码 高频(实时)
           // probeType: 2, // 触摸   高频(实时)
           probeType: 1, // 触摸   低频(非实时)
+          click: true, // 标识分发点击事件
         })
 
         // 绑定滚动的监听
-        rightScroll.on('scroll', ({x, y}) => {
+        this.rightScroll.on('scroll', ({x, y}) => {
           console.log('scroll', x, y)
           this.scrollY = Math.abs(y)
         })
         // 绑定滚动结束的监听
-        rightScroll.on('scrollEnd', ({x, y}) => {
+        this.rightScroll.on('scrollEnd', ({x, y}) => {
           console.log('scrollEnd', x, y)
           this.scrollY = Math.abs(y)
         })
@@ -117,6 +129,14 @@
         // 更新tops数据
         this.tops = tops
         console.log('tops', tops)
+      },
+
+      clickItem (index) {
+        const top = this.tops[index]
+        // 让当前分类项立即变化
+        this.scrollY = top
+        // 让右侧列表滑动到对应的位置
+        this.rightScroll.scrollTo(0, -top, 300)
       }
     }
   }
