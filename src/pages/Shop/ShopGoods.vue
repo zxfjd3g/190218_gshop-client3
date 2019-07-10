@@ -3,8 +3,9 @@
     <div class="goods">
       <div class="menu-wrapper" ref="leftWrapper">
         <ul>
-          <!-- current -->
-          <li class="menu-item" v-for="good in goods" :key="good.name">
+          <!-- current  currentIndex=1-->
+          <li class="menu-item" v-for="(good, index) in goods" :key="good.name" 
+            :class="{current: currentIndex===index}">
             <span class="text bottom-border-1px">
               <img class="icon" v-if="good.icon" :src="good.icon">
               {{good.name}}
@@ -14,8 +15,8 @@
       </div>
 
       <div class="foods-wrapper" ref="rightWrapper">
-        <ul>
-          <li class="food-list-hook" v-for="good in goods" :key="good.name">
+        <ul ref="rightUl">
+          <li  class="food-list-hook" v-for="good in goods" :key="good.name">
             <h1 class="title">{{good.name}}</h1>
             <ul>
               <li class="food-item bottom-border-1px" v-for="food in good.foods" :key="food.name">
@@ -51,26 +52,71 @@
   import { mapState } from 'vuex'
   export default {
     name: 'ShopGoods',
+    data () {
+      return {
+        scrollY: 0, // 右侧滑动的坐标: srollY, 初始为0, 滑动右侧时不断更新
+        tops: [], // 右侧所有分类li的top的数组: tops, 初始值为[], 列表数据显示之后统计tops
+      }
+    },
     computed: {
       ...mapState({
         goods: state => state.shop.goods
-      })
-    },
+      }),
 
-    mounted () {
-      
+      // 当前分类的下标
+      currentIndex () {
+        const {scrollY, tops} = this
+        return tops.findIndex((top, index) => scrollY>=top && scrollY<tops[index+1])
+      }
     },
 
     watch: {
       goods () {
         this.$nextTick(() => {
-          new BScroll(this.$refs.leftWrapper, {
-
-          })
-          new BScroll(this.$refs.rightWrapper, {
-
-          })
+          this.initScroll()
+          this.initTops()
         })
+      }
+    },
+
+    methods: {
+      // 初始化滚动
+      initScroll () {
+        const leftScroll = new BScroll(this.$refs.leftWrapper, {
+
+        })
+        const rightScroll = new BScroll(this.$refs.rightWrapper, {
+          // probeType: 3, // 触摸/惯性/编码 高频(实时)
+          // probeType: 2, // 触摸   高频(实时)
+          probeType: 1, // 触摸   低频(非实时)
+        })
+
+        // 绑定滚动的监听
+        rightScroll.on('scroll', ({x, y}) => {
+          console.log('scroll', x, y)
+          this.scrollY = Math.abs(y)
+        })
+        // 绑定滚动结束的监听
+        rightScroll.on('scrollEnd', ({x, y}) => {
+          console.log('scrollEnd', x, y)
+          this.scrollY = Math.abs(y)
+        })
+      },
+
+      initTops () {
+        const tops = []
+        let top = 0
+        tops.push(top)
+        // 遍历所有右侧分类li
+        const lis = this.$refs.rightUl.children
+        Array.prototype.slice.call(lis).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
+        })
+
+        // 更新tops数据
+        this.tops = tops
+        console.log('tops', tops)
       }
     }
   }
