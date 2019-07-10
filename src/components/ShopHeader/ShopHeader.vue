@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="discountsh-right">
-        {{info.supports.lengt}}个优惠
+        {{info.supports.length}}个优惠
       </div>
     </div>
     <transition name="fade">
