@@ -23,6 +23,7 @@
 
   export default {
     mounted () {
+      // 将info从接口中请求获取到了state中
       this.$store.dispatch('getShopInfo')
     },
 
