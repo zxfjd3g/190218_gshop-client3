@@ -30,7 +30,7 @@ axios.interceptors.request.use((config) => {
   const { needToken } = config.headers
   if (needToken) {
     // 取出state中的token
-    const token = store.state.token
+    const token = store.state.user.token
     // 如果token有值, 添加授权的头, 值为token
     if (token) {
       config.headers.Authorization = token

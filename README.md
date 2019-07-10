@@ -186,6 +186,7 @@
 
 ## 1. token的理解和使用
     1). 作用
+        a. 是一个包含特定信息的字符串:　id / 失效的时间
         a. 对请求进行一定的检查限制, 防止恶意请求
         b. 后台部分接口需要进行token验证  ==> 只有请求这些接口时才携带token
     2). 使用流程
@@ -235,3 +236,8 @@
     mockjs是什么: 用来提供mock数据接口的js库
     mockjs作用: 拦截ajax请求, 返回根据指定结构生成的随机数据
     mockjs使用: Mock.mock(url, template)
+
+## 7. 使用vuex管理商家相关的数据
+    goods
+    ratings
+    info
