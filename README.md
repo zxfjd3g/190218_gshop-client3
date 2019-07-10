@@ -241,3 +241,118 @@
     goods
     ratings
     info
+
+## day05
+## 1. vuex的多模块编码
+    1). 为什么vuex要有多模块
+        对中大型项目来说, 需要管理的状态数据较多, 不进行多模块方式拆分, mutations/actions模块会比较臃肿
+        而一旦将不同模块的数据分别拆分并管理, 再多的状态也不会有此问题
+    2). 设计多个模块
+        msite
+        user
+        shop
+    3). 每个模块的结构
+        export default {
+            state,
+            mutations,
+            actions,
+            getters
+        }
+    4). 将state, mutations, actions, getters拆分到各个模块中
+        每个模块中的mutations/actions/getters只能操作当前模块的state数据
+        不同模块的mutation可以相同, 但actions和getters不要相同
+    5). vuex管理的state结构
+        {
+          mudule1: {},
+          mudule2: {},
+          mudule3: {},
+        }
+    6). 配置:
+        new Vuex.Store({
+            mutations, // 能看到总状态数据, 能更新任意模块状态数据
+            actions, // 能看到总状态数据, 能触发任意mutation调用
+            getters, // 基于任意模块状态数据的计算属性
+            modules: {
+              module1,
+              module2
+            }
+        })
+    7). 在组件中与vuex通信
+        读取state数据: ...mapState({user: state => state.user.user})
+        读取getter数据: ...mapGetters(['totalShopCount'])
+        更新状态数据: this.$store.dispatch('actionName')   this.$store.commit('mutationName')    
+    
+    8). 多个action或mutation同名的问题
+        组件中:
+            store.dispatch(): 所有匹配的action调用
+            store.commit(): 所有匹配的mutation调用
+        action(全局/局部)中
+            commit(): 所有匹配的mutation调用
+        调用顺序
+            先全局, 再局部
+            多个局部根据配置的先后
+
+## 2. ShopHeader组件
+    1). 异步显示数据效果的编码流程
+        ajax
+          ajax请求函数
+          接口请求函数
+        vuex
+          modules/shop.js
+        组件
+          dispatch(): 异步获取后台数据到vuex的state
+          mapState(): 从vuex的state中读取对应的数据
+          模板中显示
+    2). 初始显示异常
+        情况: Cannot read property 'xxx' of undefined"
+        原因: 初始值是空对象, 内部没有数据, 而模板中直接显示3层表达式
+        解决: 使用v-if指令
+    3). vue transition动画
+        <transition name="xxx">
+        xxx-enter-active / xxx-leave-active
+          transition
+        xxx-enter / xxx-leave-to
+          隐藏时的样式
+          
+## 3. Goods组件滑动相关
+### 1). 基本滑动
+    下载并引入better-scroll
+    new BScroll(wrapDiv, {})
+    better-scroll禁用了原生的dom事件, 使用的是自定义事件, 而且默认不分发
+    
+### 2). 滑动右侧列表, 左侧的当前分类会变化
+    1). 设计一个计算属性: currentIndex代表当前分类的下标
+    2). 相关数据
+        滚动的y坐标: scrollY---> 给右侧列表绑定一个滚动的监听
+        右侧分类<li>的top数组: tops-->列表第一次显示之后统计
+    3). 计算的逻辑
+        scrollY>=top && scrollY<nextTop
+    4). 在列表显示之后确定tops
+    5). 绑定scroll/scrollEnd监听, 在回调中设置scrollY值
+    6). 关于滑动
+        a. 触发滚动回调的时机
+            实时: 高频触发
+            非实时: 低频触发
+        b. 触发滚动的方法
+            触摸
+            惯性
+            编码
+            
+### 3). 点击左侧分类项, 右侧列表滑动到对应位置
+    1). 绑定点击监听
+    2). 通过rightScroll滚动到对应的位置: rightScroll.scrollTo(0, -tops[index])
+    3). 立即更新scrollY
+
+### 4). 如何保证当前分类项总是可见?
+    一旦当前分类变化了, 让左侧列表滑动到当前分类处
+    如何判断变化了?
+    scroll.scrollToElement(li)
+
+### 4. CartControl组件
+    1). 给food设计count属性, 并由actions提供更新的方法
+    2). 问题: 更新状态数据, 对应的界面不变化
+      原因: 给一个已有绑定的对象直接添加一个新的属性, 这个属性没有数据绑定
+      解决: 
+        Vue.set(obj, 'xxx', value)才有数据绑定
+        this.$set(obj, 'xxx', value)才有数据绑定
+    3). vue transition
