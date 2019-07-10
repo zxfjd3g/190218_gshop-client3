@@ -1,10 +1,13 @@
 /* 
 管理商家模块的
 */
+import Vue from 'vue'
 import {
   RECEIVE_INFO,
   RECEIVE_RATINGS,
-  RECEIVE_GOODS
+  RECEIVE_GOODS,
+  ADD_FOOD_COUNT,
+  REDUCE_FOOD_COUNT
 } from "../mutation-types"
 
 import {
@@ -29,6 +32,25 @@ const mutations = {
 
   [RECEIVE_GOODS](state, {goods}) {
     state.goods = goods
+  },
+
+  [ADD_FOOD_COUNT](state, food) {
+    // food.name = 'xxx'
+    if (!food.hasOwnProperty('count')) {
+      // 给food对象添加一个新的属性: 属性名为count, 属性值为1
+      // food.count = 1 // 新添加的属性没有数据绑定
+      // 为响应式对象添加一个属性，确保新属性也是响应式的，并且能够触发视图更新
+      Vue.set(food, 'count', 1)
+    } else {
+      food.count++
+    }
+    
+  },
+
+  [REDUCE_FOOD_COUNT](state, food) {
+    if (food.count>0) {
+      food.count--
+    }
   },
 }
 const actions = {
@@ -61,6 +83,14 @@ const actions = {
       cb && cb()
     }
   },
+
+  updateFoodCount ({commit}, {isAdd, food}) {
+    if (isAdd) {
+      commit(ADD_FOOD_COUNT, food)
+    } else {
+      commit(REDUCE_FOOD_COUNT, food)
+    }
+  }
 }
 const getters = {
 
