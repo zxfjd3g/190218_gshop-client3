@@ -314,7 +314,7 @@
         xxx-enter / xxx-leave-to
           隐藏时的样式
           
-## 3. Goods组件滑动相关
+## 3. ShopGoods组件滑动相关
 ### 1). 基本滑动
     下载并引入better-scroll
     new BScroll(wrapDiv, {})

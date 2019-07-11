@@ -19,7 +19,8 @@
           <li  class="food-list-hook" v-for="good in goods" :key="good.name">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="food in good.foods" :key="food.name">
+              <li class="food-item bottom-border-1px" v-for="food in good.foods" 
+                :key="food.name" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -43,19 +44,27 @@
           
         </ul>
       </div>
+
+      <shop-cart/>
     </div>
+
+    <Food ref="food" :food="food"/>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
   import { mapState } from 'vuex'
+  import Food from '../../components/Food/Food.vue'
+  import ShopCart from '../../components/ShopCart/ShopCart.vue'
+
   export default {
     name: 'ShopGoods',
     data () {
       return {
         scrollY: 0, // 右侧滑动的坐标: srollY, 初始为0, 滑动右侧时不断更新
         tops: [], // 右侧所有分类li的top的数组: tops, 初始值为[], 列表数据显示之后统计tops
+        food: {}, // 需要显示的food
       }
     },
     computed: {
@@ -137,7 +146,22 @@
         this.scrollY = top
         // 让右侧列表滑动到对应的位置
         this.rightScroll.scrollTo(0, -top, 300)
+      },
+
+      /* 
+      显示指定的food
+      子组件调用父组件的方法/函数: 函数类型的props
+      父组件调用子组件的方法: 通过ref标识子组件标签, 从而得到子组件对象, 可以调用其内部的方法
+      */
+      showFood (food) {
+        this.food = food
+        this.$refs.food.toggleShow()
       }
+    },
+
+    components: {
+      Food,
+      ShopCart
     }
   }
 </script>
