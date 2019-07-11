@@ -38,6 +38,7 @@ const mutations = {
   [ADD_FOOD_COUNT](state, food) {
     // food.name = 'xxx'
     if (!food.hasOwnProperty('count')) {
+    // if (!food.count) {
       // 给food对象添加一个新的属性: 属性名为count, 属性值为1
       // food.count = 1 // 新添加的属性没有数据绑定
       // 为响应式对象添加一个属性，确保新属性也是响应式的，并且能够触发视图更新
@@ -55,6 +56,7 @@ const mutations = {
       food.count--
       // 如果count减为了0, 从cartFoods中删除此food
       if (food.count===0) {
+        delete food.count
         state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
       }
     }
@@ -120,6 +122,20 @@ const getters = {
   totalPrice (state) {
     return state.cartFoods.reduce((pre, food) => pre + food.count * food.price, 0)
   },
+
+  /*
+  总商家评论数
+   */
+  totalRatingsCount(state) {
+      return state.ratings.length
+    },
+
+    /*
+    总商家推荐评论数
+     */
+    positiveRatingsCount(state) {
+      return state.ratings.reduce((pre, rating) => pre + (rating.rateType === 0 ? 1 : 0), 0)
+    }
 }
 
 export default {

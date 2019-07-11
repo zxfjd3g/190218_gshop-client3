@@ -7,13 +7,19 @@ import store from './vuex/store'
 import Header from './components/Header/Header.vue'
 import Star from './components/Star/Star.vue'
 import CartControl from './components/CartControl/CartControl.vue'
+import Split from './components/Split/Split.vue'
 import './mock/mockServer'
+import './filters'
 
 // 注册全局组件
 Vue.component('Header', Header)
 Vue.component('Star', Star)
 Vue.component('CartControl', CartControl)
+Vue.component('Split', Split)
 Vue.component(Button.name, Button)  // mt-button
+
+
+Vue.prototype.$eventBus = new Vue()
 
 /* eslint-disable no-new */
 new Vue({

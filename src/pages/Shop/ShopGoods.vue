@@ -67,6 +67,15 @@
         food: {}, // 需要显示的food
       }
     },
+
+    mounted () {
+      // 如果当前数据已经有了  ==> 列表数据已经显示了
+      if (this.goods.length>0) {
+        this.initScroll()
+        this.initTops()
+      }
+    },
+
     computed: {
       ...mapState({
         goods: state => state.shop.goods

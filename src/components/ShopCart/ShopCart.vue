@@ -20,12 +20,12 @@
       </div>
 
       <transition name="move">
-        <div class="shopcart-list" v-show="isShow">
+        <div class="shopcart-list" v-show="listShow">
           <div class="list-header">
             <h1 class="title">购物车</h1>
             <span class="empty">清空</span>
           </div>
-          <div class="list-content">
+          <div class="list-content" ref="foodList">
             <ul>
               <li class="food" v-for=" food in cartFoods" :key="food.name">
                 <span class="name">{{food.name}}</span>
@@ -40,12 +40,13 @@
       </transition>
     </div>
     <transition name="fade">
-      <div class="list-mask" v-show="isShow" @click="toggleShow"></div>
+      <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
     </transition>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
   import { mapState, mapGetters } from 'vuex'
   export default {
 
@@ -78,12 +79,44 @@
         } else {
           return '去结算'
         }
+      },
+
+      // 购物车列表是否显示
+      listShow () {
+        console.log('listShow()')
+        // 如果没有数量, 直接返回false
+        if (this.totalCount===0) {
+          this.isShow = false
+          return false
+        } 
+
+        if (this.isShow) {
+          this.$nextTick(() => {
+            /* 
+              单例对象: 单一的实例
+              1. 创建对象前: 判断对象不存在
+              2. 创建对象后: 保存对象
+            */
+            if (!this.scroll) { // 第一次打开
+              this.scroll = new BScroll(this.$refs.foodList, {
+                click: true
+              })
+            } else { // 再次打开
+              this.scroll.refresh() // 重新进行高度统计, 看是否需要形成滑动
+            }
+            
+          })
+        }
+
+        return this.isShow
       }
     },
 
     methods: {
       toggleShow () {
-        this.isShow = !this.isShow
+        if (this.totalCount) {
+          this.isShow = !this.isShow
+        }
       }
     }
   }
