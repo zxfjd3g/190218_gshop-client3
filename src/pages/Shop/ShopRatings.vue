@@ -89,7 +89,6 @@
           click: true
         })
       }
-      
     },
 
     computed: {
