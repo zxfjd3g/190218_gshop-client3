@@ -1,11 +1,13 @@
 <template>
   <div>
-    ShopHeader
+    <h2>Reactive1组件</h2>
+    <p>a==={{a}}</p>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
+    props: ['a']
   }
 </script>
 

@@ -1,31 +1,35 @@
 <template>
-  <div id="app">
-    <router-view />
-    <FooterGuide v-if="$route.meta.isShowFooter"/>
+  <div>
+    <router-view/>
+    <FooterGuide v-show="$route.meta.isShowFoot"/>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import FooterGuide from './components/FooterGuide/FooterGuide'
+  import {reqUser} from './api'
+  import {RECEIVE_USER} from './vuex/mutation-types'
+
   export default {
-    name: "App",
+    name: 'App',
+
     data () {
       return {
-        msg: 'App Component'
+        m: 1
       }
     },
 
     async mounted () {
-      // 分发actoin, 从后台获取数据到state中
-      this.$store.dispatch('getAddress')
-      this.$store.dispatch('autoLogin')
     },
 
     components: {
       FooterGuide
     }
   }
+
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+
 </style>
+

@@ -1,35 +1,27 @@
 import Vue from 'vue'
-import { Button } from 'mint-ui'
-
-import App from './App.vue'
+import {Button} from 'mint-ui'
+import App from './App'
 import router from './router'
-import store from './vuex/store'
 import Header from './components/Header/Header.vue'
 import Star from './components/Star/Star.vue'
-import CartControl from './components/CartControl/CartControl.vue'
-import Split from './components/Split/Split.vue'
-import './mock/mockServer'
-import './filters'
+import store from './vuex/store'
+import './validate'
+
+Vue.config.productionTip = false
 
 // 注册全局组件
 Vue.component('Header', Header)
 Vue.component('Star', Star)
-Vue.component('CartControl', CartControl)
-Vue.component('Split', Split)
-Vue.component(Button.name, Button)  // mt-button
+Vue.component(Button.name, Button) // mt-button
 
-
-Vue.prototype.$eventBus = new Vue()
+// 创建vm作为全局事件总线对象: 
+Vue.prototype.$bus = new Vue()  // 所有组件对象都可以直接访问$bus
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  /* components: {
-    App
-  },
-  template: '<App/>' */
-  // render: createElement => createElement(App)  // <App/>
-  render: h => h(App),  // <App/>
+  components: { App },
+  template: '<App/>',
   router, // 配置路由器
-  store, // 配置vuex
+  store, // 配置vuex的store
 })

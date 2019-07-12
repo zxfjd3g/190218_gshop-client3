@@ -1,40 +1,41 @@
 <template>
-  <div class="star" :class="'star-'+size"> 
-    <span class="star-item" v-for="(c, index) in starClasses" :key="index" :class="c"></span>
+  <div class="star" :class="'star-' + size">
+    <span class="star-item" v-for="(sc, index) in starClasses" :key="index" :class="sc"></span>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
     props: {
-      score: Number, // 评分
-      size: Number, // 尺寸
+      score: Number, // 分数
+      size: Number, // 尺寸  24/36/48
     },
 
     computed: {
-      /*
+      /* 
       星星类名的数组
       3.5 = 3 + 1 + 1
       */
       starClasses () {
+        const classes = []
         const {score} = this
         const scoreInteger = Math.floor(score)
-        const arr = []
-        // 1. 添加n个on
+        // 向数组添加n个on
         for (let i = 0; i < scoreInteger; i++) {
-          arr.push('on')
+          classes.push('on')
         }
-        // 2. 添加0/1个half
-        if (score*10-scoreInteger*10 >= 5) {
-          arr.push('half')
-        }
-        // 3. 添加m个off
-        while(arr.length<5) {
-          arr.push('off')
+
+        // 向数组添加0/1个half
+        if (score*10 - scoreInteger*10 >= 5) {
+          classes.push('half')
         }
         
+        // 向数组添加m个off
+        while(classes.length < 5) {
+          classes.push('off')
+        }
 
-        return arr
+        return classes
       }
     }
   }

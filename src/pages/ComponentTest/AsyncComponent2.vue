@@ -1,6 +1,6 @@
 <template>
   <div>
-    ShopHeader
+      AsyncComponent2222
   </div>
 </template>
 

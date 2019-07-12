@@ -1,6 +1,7 @@
 <template>
   <div>
-    ShopHeader
+    <h2>slot1组件</h2>
+    <slot><span>默认文本</span></slot>
   </div>
 </template>
 

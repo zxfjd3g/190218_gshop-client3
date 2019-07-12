@@ -1,93 +1,42 @@
-import MSite from '../pages/MSite/MSite.vue'
-import Search from '../pages/Search/Search.vue'
-import Order from '../pages/Order/Order.vue'
-import Profile from '../pages/Profile/Profile.vue'
-import Login from '../pages/Login/Login.vue'
-import Shop from '../pages/Shop/Shop.vue'
-import ShopGoods from '../pages/Shop/ShopGoods.vue'
-import ShopInfo from '../pages/Shop/ShopInfo.vue'
-import ShopRatings from '../pages/Shop/ShopRatings.vue'
-
-import A from '../pages/test/A.vue'
-import B from '../pages/test/B.vue'
-import B1 from '../pages/test/B1.vue'
-import B2 from '../pages/test/B2.vue'
+import SlotTest from '../pages/SlotTest/SlotTest.vue'
+import MixinTest from '../pages/MixinTest/MixinTest.vue'
+import ComponentTest from '../pages/ComponentTest/ComponentTest.vue'
+import EventTest from '../pages/EventTest/EventTest.vue'
+import ReactiveTest from '../pages/ReactiveTest/ReactiveTest.vue'
+import ModelTest from '../pages/ModelTest/ModelTest.vue'
 
 export default [
   {
-    path: '/msite',
-    component: MSite,
-    meta: {
-      isShowFooter: true
-    }
+    path: '/slot',
+    component: SlotTest,
   },
+  
   {
-    path: '/search',
-    component: Search,
-    meta: {
-      isShowFooter: true
-    }
-  },
-  {
-    path: '/order',
-    component: Order,
-    meta: {
-      isShowFooter: true
-    }
-  },
-  {
-    path: '/profile',
-    component: Profile,
-    meta: {
-      isShowFooter: true
-    }
-  },
-  {
-    path: '/login',
-    component: Login
-  },
-  {
-    path: '/shop',
-    component: Shop,
-    children: [
-      {
-        path: '/shop/goods',
-        component: ShopGoods
-      },
-      {
-        path: 'ratings',
-        component: ShopRatings
-      },
-      {
-        path: '/shop/info',
-        component: ShopInfo
-      },
-      {
-        path: '',
-        redirect: '/shop/goods'
-      }
-    ]
+    path: '/mixin',
+    component: MixinTest,
   },
 
   {
-    path: '/a',
-    component: A
-  }, {
-    path: '/b',
-    component: B,
-    children: [{
-        path: '/b/b1',
-        component: B1
-      },
-      {
-        path: '/b/b2',
-        component: B2
-      },
-    ]
+    path: '/component',
+    component: ComponentTest,
   },
 
   {
-    path: '/', // 项目根路径
-    redirect: '/msite'
-  }
+    path: '/event',
+    component: EventTest,
+  },
+
+  {
+    path: '/reactive',
+    component: ReactiveTest,
+  },
+  
+  {
+    path: '/model',
+    component: ModelTest,
+  },
+  {
+    path: '/',
+    redirect: '/slot'
+  },
 ]

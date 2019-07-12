@@ -6,22 +6,21 @@
     </div>
     <div class="shop_container">
       <ul class="shop_list" v-if="shops.length>0">
-        <li class="shop_li border-1px" v-for="shop in shops" :key="shop.name"
-          @click="$router.push('/shop')">
+        <li class="shop_li border-1px" v-for="(shop, index) in shops" :key="shop.id" @click="$router.push('/shop')">
           <a>
             <div class="shop_left">
-              <img class="shop_img" :src="'https://fuss10.elemecdn.com' + shop.image_path">
+              <img class="shop_img" :src="`https://fuss10.elemecdn.com${shop.image_path}`">
             </div>
             <div class="shop_right">
               <section class="shop_detail_header">
                 <h4 class="shop_title ellipsis">{{shop.name}}</h4>
                 <ul class="shop_detail_ul">
-                  <li class="supports" v-for="support in shop.supports" :key="support._id">{{support.icon_name}}</li>
+                  <li class="supports" v-for="(support, index) in shop.supports" :key="index">{{support.icon_name}}</li>
                 </ul>
               </section>
               <section class="shop_rating_order">
                 <section class="shop_rating_order_left">
-                  <Star :size="24" :score="shop.rating"/>
+                  <Star :score="shop.rating" :size="24"/>
                   <div class="rating_section">
                     {{shop.rating}}
                   </div>
@@ -46,27 +45,25 @@
       </ul>
       <ul v-else>
         <li>
-          <img src="./images/shop_back.svg" alt="loading">
+          <img src="./images/shop_back.svg" alt="loading"/>
         </li>
         <li>
-          <img src="./images/shop_back.svg" alt="loading">
+          <img src="./images/shop_back.svg" alt="loading"/>
         </li>
         <li>
-          <img src="./images/shop_back.svg" alt="loading">
+          <img src="./images/shop_back.svg" alt="loading"/>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
+
 <script type="text/ecmascript-6">
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   export default {
-    name: 'ShopList',
     computed: {
-      ...mapState({
-        shops: state => state.msite.shops
-      })
+      ...mapState(['shops'])
     }
   }
 </script>
@@ -188,4 +185,5 @@
                   color #666
                 .segmentation
                   color #ccc
+
 </style>

@@ -1,29 +1,33 @@
 <template>
   <footer class="footer_guide border-1px">
-    <span class="guide_item" :class="{on: $route.path==='/msite'}" @click="goTo('/msite')"><!-- 什么时候用对象语法: 类名确定, 但不确定有没有 -->
+    <span class="guide_item" :class="{on: '/msite'===$route.path}"
+        @click="goTo('/msite')">
       <span class="item_icon">
         <i class="iconfont icon-waimai"></i>
       </span>
       <span>外卖</span>
     </span>
-    <span class="guide_item" :class="{on: $route.path==='/search'}" @click="goTo('/search')">
+    <a href="javascript:;" class="guide_item" :class="{on: '/search'===$route.path}"
+        @click="goTo('/search')">
       <span class="item_icon">
         <i class="iconfont icon-search"></i>
       </span>
       <span>搜索</span>
-    </span>
-    <span class="guide_item" :class="{on: $route.path==='/order'}" @click="goTo('/order')">
+    </a>
+    <a href="javascript:;" class="guide_item" :class="{on: '/order'===$route.path}"
+        @click="goTo('/order')">
       <span class="item_icon">
         <i class="iconfont icon-dingdan"></i>
       </span>
       <span>订单</span>
-    </span>
-    <span class="guide_item" :class="{on: $route.path==='/profile'}" @click="goTo('/profile')">
+    </a>
+    <a href="javascript:;" class="guide_item" :class="{on: '/profile'===$route.path}"
+        @click="goTo('/profile')">
       <span class="item_icon">
         <i class="iconfont icon-geren"></i>
       </span>
       <span>我的</span>
-    </span>
+    </a>
   </footer>
 </template>
 
@@ -40,7 +44,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  @import '../../common/stylus/mixins.styl'
+  @import "../../common/stylus/mixins.styl"
 
   .footer_guide  //footer
     top-border-1px(#e4e4e4)

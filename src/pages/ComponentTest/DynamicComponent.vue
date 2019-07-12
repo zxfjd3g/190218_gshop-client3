@@ -1,6 +1,6 @@
 <template>
   <div>
-    ShopHeader
+    DynamicComponent111界面
   </div>
 </template>
 

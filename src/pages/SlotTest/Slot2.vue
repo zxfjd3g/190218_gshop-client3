@@ -1,6 +1,8 @@
 <template>
   <div>
-    ShopHeader
+    <slot name="one"></slot>
+    <div>内部已有的结构</div>
+    <slot name="two"></slot>
   </div>
 </template>
 
