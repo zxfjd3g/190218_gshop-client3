@@ -40,7 +40,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="http://localhost:5000/captcha" alt="captcha"
+                <img class="get_verification" src="/api/captcha" alt="captcha"
                   @click="updateCapcha" ref='captcha'>
               </section>
             </section>
@@ -49,7 +49,7 @@
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
-      <a href="javascript:" class="go_back" @click="$router.back()">
+      <a href="javascript:" class="go_back" @click="$router.replace('/profile')">
         <i class="iconfont icon-jiantou2"></i>
       </a>
     </div>
@@ -115,7 +115,7 @@
       */
       updateCapcha () {
         // 给img指定一个新的src值, 携带一个时间戳的参数
-        this.$refs.captcha.src = 'http://localhost:5000/captcha?time=' + Date.now()
+        this.$refs.captcha.src = '/api/captcha?time=' + Date.now()
       },
 
      /* 
