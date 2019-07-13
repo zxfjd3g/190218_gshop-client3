@@ -7,13 +7,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {myMixin} from './mixins'
+  import { myMixin } from './mixins'
   export default {
+    
     mixins: [myMixin],
 
     data () {
       return {
-        b: 'bbbbbb'
+        b: 'bbbbbb',
       }
     },
     

@@ -12,13 +12,6 @@
       return {
         msg: 'abc'
       }
-    },
-
-    mounted () {
-      // 通过全局事件总线绑定自定义事件监听
-      this.$bus.$on('eventName', (data) => {
-        this.msg = data
-      })
     }
   }
 </script>

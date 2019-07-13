@@ -7,8 +7,8 @@
 
     <p>a==={{a}}</p>
     <p>b==={{b}}</p>
-    <p>c.c1==={{c.c1}}</p>
-    <p>c.c2==={{c.c2}}</p>
+    <p>c.d==={{c.d}}</p>
+    <p>c.e==={{c.e}}</p>
   </div>
 </template>
 
@@ -17,19 +17,19 @@
 
   export default {
     data () {
-      this.b = 'b11' // b属性不是响应式的
-      return { // data对象中所有属性都是响应式的
+      this.b = 'b11' 
+      return { 
         a: 'a11',
         c: {
-          c1: 'c11'
+          d: 'd111'
         }
       }
     },
 
     methods: {
       update1 () {
-        this.a = 'a22'
-        this.c.c1 = 'c22'
+       // this.a = 'a22'
+       this.c.d = 'd222'
       },
 
       update2 () {
@@ -37,8 +37,8 @@
       },
 
       update3 () {
-        // this.c.c2 = 'c2222'
-        this.$set(this.c, 'c2', 'c3333')
+        // this.c.e = 'c2222'
+        this.$set(this.c, 'e', 'c222')
       }
     },
 

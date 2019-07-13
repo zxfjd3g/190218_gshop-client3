@@ -7,7 +7,12 @@
 
 <script type="text/ecmascript-6">
   export default {
-    props: ['a']
+    props: ['a'],
+    data () {
+      return {
+        
+      }
+    }
   }
 </script>
 
