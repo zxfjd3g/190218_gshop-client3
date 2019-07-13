@@ -1,8 +1,10 @@
 <template>
   <ul>
     <li v-for="(todo, index) in todos" :key="index">
-      <!-- slot标签属性会传递给父组件 -->
-      <slot :todo="todo">{{todo.text}}</slot>
+      <!-- slot标签的属性会传递给父组件 -->
+      <slot :todo="todo">
+        <span>{{todo.text}}</span>
+      </slot>
     </li>
   </ul>
 </template>

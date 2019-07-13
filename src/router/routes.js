@@ -5,6 +5,7 @@ import EventTest from '../pages/EventTest/EventTest.vue'
 import ReactiveTest from '../pages/ReactiveTest/ReactiveTest.vue'
 import ModelTest from '../pages/ModelTest/ModelTest.vue'
 
+
 export default [
   {
     path: '/slot',

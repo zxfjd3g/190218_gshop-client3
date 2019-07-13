@@ -20,8 +20,9 @@ Vue.prototype.$bus = new Vue()  // 所有组件对象都可以直接访问$bus
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  components: { App },
-  template: '<App/>',
+  // components: { App },
+  // template: '<App/>',
+  render: h => h(App),
   router, // 配置路由器
   store, // 配置vuex的store
 })
