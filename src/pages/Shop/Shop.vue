@@ -14,7 +14,10 @@
       </div>
     </div>
 
-    <router-view />
+    <!-- 缓存所有对应的路由组件对象: 离开时不死亡, 给缓存起来, 再请求时直接使用缓存 -->
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 

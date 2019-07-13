@@ -40,7 +40,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="/api/captcha" alt="captcha"
+                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha"
                   @click="updateCapcha" ref='captcha'>
               </section>
             </section>
@@ -115,7 +115,7 @@
       */
       updateCapcha () {
         // 给img指定一个新的src值, 携带一个时间戳的参数
-        this.$refs.captcha.src = '/api/captcha?time=' + Date.now()
+        this.$refs.captcha.src = 'http://localhost:4000/captcha?time=' + Date.now()
       },
 
      /* 
@@ -144,7 +144,20 @@
           alert(result.msg)
         }
       }
-    }
+    },
+
+    // 在当前组件对象被创建前调用, 不能直接访问this(不是组件对象)
+    // 但可以通过next(component => {}), 在回调函数中访问组件对象
+    beforeRouteEnter (to, from, next) {
+      // 如果已经登陆, 自动跳转个人中心
+      next((component) => {// 组件对象创建后, 立即调用此函数, 并传入组件对象
+        if (component.$store.state.user.token) {
+          next('/profile')
+        } else {
+          next()
+        }
+      })
+    },
   }
 </script>
 

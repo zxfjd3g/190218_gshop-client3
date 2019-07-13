@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Button } from 'mint-ui'
-
+import VueLazyload from 'vue-lazyload'
 import App from './App.vue'
 import router from './router'
 import store from './vuex/store'
@@ -10,6 +10,12 @@ import CartControl from './components/CartControl/CartControl.vue'
 import Split from './components/Split/Split.vue'
 import './mock/mockServer'
 import './filters'
+
+import loading from './common/img/loading.gif'
+
+Vue.use(VueLazyload, { // 内部自定义了一个全局指令: lazy
+  loading
+})
 
 // 注册全局组件
 Vue.component('Header', Header)
